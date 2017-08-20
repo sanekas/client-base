@@ -8,8 +8,15 @@ import java.util.Collection;
  * Created by sanekas on 14/05/2017.
  */
 public interface ClientService {
-    Client getClientById(final long id);
-    Collection<Client> getAllClients();
-    void deleteClientById(final long id);
-    void updateClient(final Client client);
+    Client getById(String id);
+    void deleteById(String id);
+
+    Collection<Client> getByName(String name);
+    void deleteByName(String name);
+
+    Collection<Client> getAll();
+
+    void update(Client client);
+    void add(Client client);
+    void add(String name);
 }
