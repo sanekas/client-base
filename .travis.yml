@@ -1,0 +1,10 @@
+sudo: required
+language: java
+jdk: oraclejdk8
+services:
+  - docker
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: "a11c6ab7-6c51-46ca-a531-42f52028ec73"
