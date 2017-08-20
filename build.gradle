@@ -22,6 +22,12 @@ repositories {
 	mavenCentral()
 }
 
+test {
+	systemProperties = [
+			'MONGOLAB_URI': System.getenv( 'MONGOLAB_URI' )
+	]
+}
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile("org.springframework.boot:spring-boot-starter-data-mongodb")
