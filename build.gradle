@@ -27,6 +27,10 @@ configurations {
 	compile.exclude module: "spring-boot-starter-tomcat"
 }
 
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.0'
+}
+
 
 jacocoTestReport {
 	reports {
