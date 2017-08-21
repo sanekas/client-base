@@ -4,4 +4,4 @@
 
 Simple CRUD application with RESTful API & full CI cycle(GitHub -> Travis CI -> Heroku)
 
-Address: https://clientbase-sanekas.herokuapp.com/api/clients
+[Swagger UI](https://clientbase-sanekas.herokuapp.com/swagger-ui.html)
