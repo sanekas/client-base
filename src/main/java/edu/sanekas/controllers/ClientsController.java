@@ -1,4 +1,4 @@
-package edu.sanekas.controller;
+package edu.sanekas.controllers;
 
 import edu.sanekas.dao.ClientService;
 import edu.sanekas.model.Client;
@@ -16,7 +16,7 @@ import java.util.Collection;
  * Created by sanekas on 14/05/2017.
  */
 @RestController
-@RequestMapping("/api/clients")
+@RequestMapping("/clients")
 public class ClientsController {
     private final ClientService clientService;
 
@@ -36,7 +36,7 @@ public class ClientsController {
     }
 
     @RequestMapping(params = "name", method = RequestMethod.GET)
-    public Collection<Client> getClientsByName(@RequestParam(name = "name") String name) {
+    public Collection<Client> getByName(@RequestParam(name = "name") String name) {
         return clientService.getByName(name);
     }
 
