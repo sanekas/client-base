@@ -29,8 +29,8 @@ public class ClientsController {
     }
 
     @ApiOperation(value = "Get all clients")
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public Collection<Client> getAll() {
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    public Collection<Client> all() {
         return clientService.getAll();
     }
 
@@ -47,20 +47,14 @@ public class ClientsController {
     }
 
     @ApiOperation(value = "Create new client")
-    @RequestMapping(value = "/putNewClient", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void add(@RequestBody Client client) {
+    @RequestMapping(value = "/putNew", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void putNew(@RequestBody Client client) {
         clientService.add(client);
     }
 
-    @Deprecated
-    @ApiOperation(value = "Create new client with name")
-    @RequestMapping(value = "/add", params = "name", method = RequestMethod.PUT)
-    public void add(@RequestParam(name = "name") String name) {
-        clientService.add(name);
-    }
 
     @ApiOperation(value = "Update existed client")
-    @RequestMapping(value = "/updateClient", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@RequestBody Client client) {
         clientService.update(client);
     }
