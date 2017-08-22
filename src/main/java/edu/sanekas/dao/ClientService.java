@@ -1,22 +1,27 @@
 package edu.sanekas.dao;
 
 import edu.sanekas.model.Client;
+import edu.sanekas.model.JsonClient;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Created by sanekas on 14/05/2017.
  */
 public interface ClientService {
-    Client getById(String id);
-    void deleteById(String id);
-
-    Collection<Client> getByName(String name);
-    void deleteByName(String name);
-
+    @NotNull
     Collection<Client> getAll();
 
-    void update(Client client);
-    void add(Client client);
-    void add(String name);
+    Optional<Client> getById(String id);
+
+    @NotNull
+    Client create(JsonClient jsonClient);
+
+    Optional<Client> update(String id, JsonClient jsonClient);
+
+    boolean exists(String id);
+
+    void deleteById(String id);
 }
