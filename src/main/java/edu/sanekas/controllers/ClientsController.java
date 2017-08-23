@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -52,7 +51,7 @@ public class ClientsController {
     }
 
     @ApiOperation(value = "Creates new client with unique id")
-    @RequestMapping(value = "/clients", method = RequestMethod.POST)
+    @RequestMapping(value = "/clients", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Client> createClient(@RequestBody JsonClient jsonClient) {
         final Client client = clientService.create(jsonClient);
         return new ResponseEntity<>(client, HttpStatus.CREATED);
@@ -67,8 +66,8 @@ public class ClientsController {
     }
 
     @ApiOperation(value = "Deletes client by id")
-    @RequestMapping(value = "/deleteById", params = "id", method = RequestMethod.DELETE)
-    public ResponseEntity<Client> deleteById(@RequestParam(name = "id") String id) {
+    @RequestMapping(value = "/clients/{id}", params = "id", method = RequestMethod.DELETE)
+    public ResponseEntity<Client> deleteById(@PathVariable(name = "id") String id) {
         final boolean exists = clientService.exists(id);
         if (exists) {
             clientService.deleteById(id);
