@@ -1,7 +1,7 @@
 package edu.sanekas.dao;
 
 import edu.sanekas.model.Client;
-import edu.sanekas.model.JsonClient;
+import edu.sanekas.model.ClientRequest;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -17,9 +17,9 @@ public interface ClientService {
     Optional<Client> getById(String id);
 
     @NotNull
-    Client create(JsonClient jsonClient);
+    Client create(ClientRequest clientRequest);
 
-    Optional<Client> update(String id, JsonClient jsonClient);
+    Optional<Client> update(String id, ClientRequest jsonClient);
 
     boolean exists(String id);
 

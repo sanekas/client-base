@@ -1,8 +1,7 @@
 package edu.sanekas.dao;
 
 import edu.sanekas.model.Client;
-import edu.sanekas.model.ClientBuilder;
-import edu.sanekas.model.JsonClient;
+import edu.sanekas.model.ClientRequest;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,12 +15,10 @@ import java.util.Optional;
 @Component
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;
-    private final ClientBuilder clientBuilder;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository repository, ClientBuilder clientBuilder) {
+    public ClientServiceImpl(ClientRepository repository) {
         this.repository = repository;
-        this.clientBuilder = clientBuilder;
     }
 
     @NotNull
@@ -37,19 +34,14 @@ public class ClientServiceImpl implements ClientService {
 
     @NotNull
     @Override
-    public Client create(JsonClient jsonClient) {
-        final Client client = clientBuilder.buildClient(jsonClient);
-        repository.save(client);
-        return client;
+    public Client create(ClientRequest clientRequest) {
+        return repository.save(clientRequest);
     }
 
     @Override
-    public Optional<Client> update(String id, JsonClient jsonClient) {
+    public Optional<Client> update(String id, ClientRequest clientRequest) {
         final Optional<Client> client = Optional.ofNullable(repository.findOne(id));
-        client.ifPresent(cl -> {
-            clientBuilder.updateClient(cl, jsonClient);
-            repository.save(cl);
-        });
+        client.ifPresent(cl -> repository.save(clientRequest));
         return client;
     }
 

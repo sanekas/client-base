@@ -1,13 +1,14 @@
 package edu.sanekas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 
 /**
  * Created by sanekas on 14/05/2017.
  */
 
+@JsonIgnoreProperties(allowGetters = true)
 public class Client {
-
     @Id
     private String id;
 
@@ -17,10 +18,13 @@ public class Client {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }

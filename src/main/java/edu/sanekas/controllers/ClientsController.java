@@ -2,7 +2,7 @@ package edu.sanekas.controllers;
 
 import edu.sanekas.dao.ClientService;
 import edu.sanekas.model.Client;
-import edu.sanekas.model.JsonClient;
+import edu.sanekas.model.ClientRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,22 +52,22 @@ public class ClientsController {
 
     @ApiOperation(value = "Creates new client with unique id")
     @RequestMapping(value = "/clients", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Client> createClient(@RequestBody JsonClient jsonClient) {
-        final Client client = clientService.create(jsonClient);
+    public ResponseEntity<Client> createClient(@RequestBody ClientRequest clientRequest) {
+        final Client client = clientService.create(clientRequest);
         return new ResponseEntity<>(client, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Updates and returns fresh client")
     @RequestMapping(value = "/clients/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Client> update(@PathVariable("id") String id, @RequestBody JsonClient jsonClient) {
-        final Optional<Client> client = clientService.update(id, jsonClient);
+    public ResponseEntity<Client> update(@PathVariable("id") String id, @RequestBody ClientRequest clientRequest) {
+        final Optional<Client> client = clientService.update(id, clientRequest);
         return client.map(cl -> new ResponseEntity<>(cl, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @ApiOperation(value = "Deletes client by id")
-    @RequestMapping(value = "/clients/{id}", params = "id", method = RequestMethod.DELETE)
-    public ResponseEntity<Client> deleteById(@PathVariable(name = "id") String id) {
+    @RequestMapping(value = "/clients/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Client> deleteById(@PathVariable("id") String id) {
         final boolean exists = clientService.exists(id);
         if (exists) {
             clientService.deleteById(id);
