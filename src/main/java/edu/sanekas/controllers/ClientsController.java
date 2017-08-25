@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 import java.util.Optional;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+
 /**
  * Created by sanekas on 14/05/2017.
  */
@@ -39,6 +41,7 @@ public class ClientsController {
         if (clients.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        clients.forEach(cl -> cl.add(linkTo(methodOn(ClientsController.class).getClientById(cl.getDbId())).withSelfRel()));
         return new ResponseEntity<>(clients, HttpStatus.OK);
     }
 
@@ -46,6 +49,7 @@ public class ClientsController {
     @RequestMapping(value = "/clients/{id}", method = RequestMethod.GET)
     public ResponseEntity<Client> getClientById(@PathVariable("id") String id) {
         final Optional<Client> client = clientService.getById(id);
+        client.ifPresent(cl -> cl.add(linkTo(methodOn(ClientsController.class).getClientById(cl.getDbId())).withSelfRel()));
         return client.map(cl -> new ResponseEntity<>(cl, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -54,6 +58,7 @@ public class ClientsController {
     @RequestMapping(value = "/clients", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Client> createClient(@RequestBody ClientRequest clientRequest) {
         final Client client = clientService.create(clientRequest);
+        client.add(linkTo(methodOn(ClientsController.class).getClientById(client.getDbId())).withSelfRel());
         return new ResponseEntity<>(client, HttpStatus.CREATED);
     }
 
@@ -61,6 +66,7 @@ public class ClientsController {
     @RequestMapping(value = "/clients/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Client> update(@PathVariable("id") String id, @RequestBody ClientRequest clientRequest) {
         final Optional<Client> client = clientService.update(id, clientRequest);
+        client.ifPresent(cl -> cl.add(linkTo(methodOn(ClientsController.class).getClientById(cl.getDbId())).withSelfRel()));
         return client.map(cl -> new ResponseEntity<>(cl, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -74,5 +80,12 @@ public class ClientsController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @ApiOperation(value = "Deletes all clients")
+    @RequestMapping(value = "/clients", method = RequestMethod.DELETE)
+    public ResponseEntity<Client> deleteAll() {
+        clientService.deleteAll();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

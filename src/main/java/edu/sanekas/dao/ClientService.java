@@ -24,4 +24,6 @@ public interface ClientService {
     boolean exists(String id);
 
     void deleteById(String id);
+
+    void deleteAll();
 }

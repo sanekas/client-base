@@ -54,4 +54,9 @@ public class ClientServiceImpl implements ClientService {
     public void deleteById(String id) {
         repository.delete(id);
     }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

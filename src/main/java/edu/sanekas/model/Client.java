@@ -2,24 +2,25 @@ package edu.sanekas.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
+import org.springframework.hateoas.ResourceSupport;
 
 /**
  * Created by sanekas on 14/05/2017.
  */
 
 @JsonIgnoreProperties(allowGetters = true)
-public class Client {
+public class Client extends ResourceSupport {
     @Id
-    private String id;
+    private String dbId;
 
     private String name;
 
-    public String getId() {
-        return id;
+    public String getDbId() {
+        return dbId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDbId(String dbId) {
+        this.dbId = dbId;
     }
 
     public String getName() {
@@ -36,13 +37,13 @@ public class Client {
 
         Client client = (Client) o;
 
-        if (id != null ? !id.equals(client.id) : client.id != null) return false;
+        if (dbId != null ? !dbId.equals(client.dbId) : client.dbId != null) return false;
         return name != null ? name.equals(client.name) : client.name == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = dbId != null ? dbId.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
@@ -50,7 +51,7 @@ public class Client {
     @Override
     public String toString() {
         return "Client{" +
-                "id='" + id + '\'' +
+                "dbId='" + dbId + '\'' +
                 ", name='" + name + '\'' +
                 '}';
     }
