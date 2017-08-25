@@ -92,7 +92,7 @@ public class ClientsController {
     @ApiOperation(value = "Deletes client by id")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "No content"),
-            @ApiResponse(code = 204, message = "Not found")
+            @ApiResponse(code = 404, message = "Not found")
     })
     @RequestMapping(value = "/clients/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Client> deleteById(@PathVariable("id") String id) {
