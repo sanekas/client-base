@@ -5,6 +5,8 @@ import edu.sanekas.model.Client;
 import edu.sanekas.model.ClientRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 import java.util.Optional;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * Created by sanekas on 14/05/2017.
@@ -34,7 +37,11 @@ public class ClientsController {
         this.clientService = clientService;
     }
 
-    @ApiOperation(value = "Get all clients")
+    @ApiOperation(value = "Returns all clients")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 204, message = "No content")
+    })
     @RequestMapping(value = "/clients", method = RequestMethod.GET)
     public ResponseEntity<Collection<Client>> getAll() {
         final Collection<Client> clients = clientService.getAll();
@@ -46,6 +53,10 @@ public class ClientsController {
     }
 
     @ApiOperation(value = "Returns client by id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "Not found")
+    })
     @RequestMapping(value = "/clients/{id}", method = RequestMethod.GET)
     public ResponseEntity<Client> getClientById(@PathVariable("id") String id) {
         final Optional<Client> client = clientService.getById(id);
@@ -55,6 +66,9 @@ public class ClientsController {
     }
 
     @ApiOperation(value = "Creates new client with unique id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created"),
+    })
     @RequestMapping(value = "/clients", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Client> createClient(@RequestBody ClientRequest clientRequest) {
         final Client client = clientService.create(clientRequest);
@@ -63,6 +77,10 @@ public class ClientsController {
     }
 
     @ApiOperation(value = "Updates and returns fresh client")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "Not found")
+    })
     @RequestMapping(value = "/clients/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Client> update(@PathVariable("id") String id, @RequestBody ClientRequest clientRequest) {
         final Optional<Client> client = clientService.update(id, clientRequest);
@@ -72,6 +90,10 @@ public class ClientsController {
     }
 
     @ApiOperation(value = "Deletes client by id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "No content"),
+            @ApiResponse(code = 204, message = "Not found")
+    })
     @RequestMapping(value = "/clients/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Client> deleteById(@PathVariable("id") String id) {
         final boolean exists = clientService.exists(id);
@@ -83,6 +105,9 @@ public class ClientsController {
     }
 
     @ApiOperation(value = "Deletes all clients")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "No content")
+    })
     @RequestMapping(value = "/clients", method = RequestMethod.DELETE)
     public ResponseEntity<Client> deleteAll() {
         clientService.deleteAll();

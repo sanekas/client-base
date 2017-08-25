@@ -1,6 +1,7 @@
 package edu.sanekas.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -13,6 +14,7 @@ public class Client extends ResourceSupport {
     @Id
     private String dbId;
 
+    @ApiModelProperty(required = true)
     private String name;
 
     public String getDbId() {
@@ -37,8 +39,8 @@ public class Client extends ResourceSupport {
 
         Client client = (Client) o;
 
-        if (dbId != null ? !dbId.equals(client.dbId) : client.dbId != null) return false;
-        return name != null ? name.equals(client.name) : client.name == null;
+        return (dbId != null ? dbId.equals(client.dbId) : client.dbId == null) &&
+                (name != null ? name.equals(client.name) : client.name == null);
     }
 
     @Override
